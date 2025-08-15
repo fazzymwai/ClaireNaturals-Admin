@@ -30,6 +30,7 @@ const productSchema = z.object({
   benefits: z.string().optional(),
   ingredients: z.string().optional(),
   size: z.string().optional(),
+  stock: z.string().optional(),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -49,6 +50,7 @@ export default function NewProductPage() {
       benefits: "",
       ingredients: "",
       size: "",
+      stock: "",
     },
   });
 
@@ -234,6 +236,21 @@ export default function NewProductPage() {
                 <FormLabel>Size</FormLabel>
                 <FormControl>
                   <Input placeholder="e.g. 250ml" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Stock */}
+          <FormField
+            control={form.control}
+            name="stock"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Stock</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g. 20 pcs" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -20,6 +20,7 @@ interface Product {
   benefits?: string;
   ingredients?: string;
   size?: string;
+  stock?: string;
 }
 
 export default function ProductsPage() {
@@ -62,14 +63,17 @@ export default function ProductsPage() {
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h2 className="font-semibold text-lg">{product.name}</h2>
+              {product.beforePrice && (
+                <span className="text-slate-400">{product.category}</span>
+              )}
               <div className="flex items-center space-x-2 mt-1">
-                <span className="text-green-600 font-bold">${product.price}</span>
+                <span className="text-green-600 font-bold">Ksh {product.price}</span>
                 {product.beforePrice && (
-                  <span className="line-through text-slate-400">${product.beforePrice}</span>
+                  <span className="line-through text-slate-400">Ksh {product.beforePrice}</span>
                 )}
               </div>
-              {product.discount && (
-                <span className="text-sm text-red-500">{product.discount}% off</span>
+              {product.stock && (
+                <span className="text-sm text-red-500">{product.stock} Pieces</span>
               )}
             </Link>
           ))}
