@@ -15,6 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { db, storage } from "@/lib/firebaseClient";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -22,9 +29,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   image: z.any().optional(),
-  discount: z.string().optional(),
   price: z.string().min(1, "Price is required"),
-  beforePrice: z.string().optional(),
   description: z.string().optional(),
   category: z.string().optional(),
   benefits: z.string().optional(),
@@ -42,9 +47,7 @@ export default function NewProductPage() {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
-      discount: "",
       price: "",
-      beforePrice: "",
       description: "",
       category: "",
       benefits: "",
@@ -121,46 +124,16 @@ export default function NewProductPage() {
               </FormItem>
             )}
           />
-
-          {/* Price + Discount */}
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="discount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Discount (%)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="0" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Price" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* Before Price */}
+          
+          {/* Price */}
           <FormField
             control={form.control}
-            name="beforePrice"
+            name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Before Price</FormLabel>
+                <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="Original price" {...field} />
+                  <Input placeholder="Price" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -190,13 +163,21 @@ export default function NewProductPage() {
               <FormItem>
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <Input placeholder="Category" {...field} />
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="bar">Bar-Soap</SelectItem>
+                      <SelectItem value="liquid">Liquid-Soap</SelectItem>
+                      <SelectItem value="butter">Butters</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           {/* Benefits */}
           <FormField
             control={form.control}

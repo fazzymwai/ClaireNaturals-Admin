@@ -15,9 +15,7 @@ interface Product {
   id: string;
   name: string;
   image: string;
-  discount?: number;
   price: number;
-  beforePrice?: number;
   description?: string;
   category?: string;
   benefits?: string;
@@ -88,8 +86,6 @@ export default function EditProductPage() {
     await updateDoc(doc(db, "products", product.id), {
       name: product.name,
       price: product.price,
-      beforePrice: product.beforePrice || null,
-      discount: product.discount || null,
       description: product.description || "",
       category: product.category || "",
       benefits: product.benefits || "",
@@ -127,24 +123,6 @@ export default function EditProductPage() {
       </div>
 
       <div>
-        <label className="block mb-1 font-semibold">Before Price (Ksh)</label>
-        <Input
-          type="number"
-          value={product.beforePrice || ""}
-          onChange={(e) => setProduct({ ...product, beforePrice: Number(e.target.value) })}
-        />
-      </div>
-
-      <div>
-        <label className="block mb-1 font-semibold">Discount (%)</label>
-        <Input
-          type="number"
-          value={product.discount || ""}
-          onChange={(e) => setProduct({ ...product, discount: Number(e.target.value) })}
-        />
-      </div>
-
-      <div>
         <label className="block mb-1 font-semibold">Stock</label>
         <Input
           value={product.stock || ""}
@@ -154,10 +132,16 @@ export default function EditProductPage() {
 
       <div>
         <label className="block mb-1 font-semibold">Category</label>
-        <Input
+        <select
           value={product.category || ""}
           onChange={(e) => setProduct({ ...product, category: e.target.value })}
-        />
+          className="w-full border rounded-md p-2"
+        >
+          <option value="">Select a category</option>
+          <option value="bar">Bar-Soap</option>
+          <option value="liquid">Liquid-Soap</option>
+          <option value="butter">Butters</option>
+        </select>
       </div>
 
       <div>

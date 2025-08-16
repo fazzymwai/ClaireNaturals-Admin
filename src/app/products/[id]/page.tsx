@@ -7,6 +7,8 @@ import { db } from "@/lib/firebaseClient";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { storage } from "@/lib/firebaseClient";
+import { ref, deleteObject } from "firebase/storage";
 
 interface Product {
   id: string;
@@ -42,8 +44,30 @@ export default function ProductDetailPage() {
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this product?")) return;
-    await deleteDoc(doc(db, "products", id as string));
-    router.push("/products");
+
+    try {
+      // Delete Firestore doc
+      await deleteDoc(doc(db, "products", id as string));
+
+      // Delete Storage image if exists
+      if (product?.image) {
+        try {
+          // Extract filename from the URL
+          const imageUrl = new URL(product.image);
+          const path = decodeURIComponent(imageUrl.pathname.split("/o/")[1].split("?")[0]);
+
+          const imageRef = ref(storage, path);
+          await deleteObject(imageRef);
+          console.log("Image deleted from storage:", path);
+        } catch (err) {
+          console.warn("Could not delete product image from storage:", err);
+        }
+      }
+
+      router.push("/products");
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    }
   };
 
   if (!product) return <p className="p-6">Loading...</p>;
@@ -74,7 +98,18 @@ export default function ProductDetailPage() {
         )}
       </div>
       <p className="mb-2"><strong>Description:</strong> {product.description}</p>
-      <p className="mb-2"><strong>Category:</strong> {product.category}</p>
+      <p className="mb-2"><strong>Category: </strong>
+      <span className="mb-2">
+        {product.category === "bar"
+          ? "Bar-soap"
+          : product.category === "liquid"
+          ? "Liquid-soap"
+          : product.category === "butter"
+          ? "Butters"
+          : product.category
+        }
+      </span>
+      </p>
       <p className="mb-2"><strong>Benefits:</strong> {product.benefits}</p>
       <p className="mb-2"><strong>Ingredients:</strong> {product.ingredients}</p>
       <p className="mb-6"><strong>Size:</strong> {product.size}</p>
