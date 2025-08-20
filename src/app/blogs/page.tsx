@@ -73,15 +73,15 @@ export default function BlogsOverview() {
             <tbody>
               {blogs.map((blog) => (
                 <tr key={blog.id} className="border-b hover:bg-gray-50">
-                  <td className="p-3">{blog.title}</td>
-                  <td className="p-3">{blog.category}</td>
-                  <td className="p-3">{blog.status}</td>
-                  <td className="p-3">{blog.views}</td>
-                  <td className="p-3">{blog.likes}</td>
-                  <td className="p-3">
+                  <td className="p-1">{blog.title}</td>
+                  <td className="p-1">{blog.category}</td>
+                  <td className="p-1">{blog.status}</td>
+                  <td className="p-1">{blog.views}</td>
+                  <td className="p-1">{blog.likes}</td>
+                  <td className="p-1">
                     {new Date(blog.createdAt?.seconds * 1000).toLocaleDateString()}
                   </td>
-                  <td className="p-3 space-x-2">
+                  <td className="p-2 space-x-2">
                     <Link href={`/blogs/${blog.id}`}>
                       <Button size="sm" variant="outline">View</Button>
                     </Link>

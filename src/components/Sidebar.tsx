@@ -60,7 +60,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-72 bg-white border-r flex flex-col justify-between">
+    <aside className="w-54 bg-white border-r flex flex-col justify-between">
       <div>
         <div className="p-4 border-b font-bold text-lg">ClaireNaturals Admin</div>
         <nav className="p-4 space-y-1">

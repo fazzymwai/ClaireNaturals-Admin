@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -163,9 +164,11 @@ export default function EditBlogPage() {
             <div>
               <label className="block mb-1 font-medium">Cover Image</label>
               {coverImage && (
-                <img
+                <Image
                   src={coverImage}
                   alt="Cover"
+                  width={100}
+                  height={100}
                   className="mb-2 w-48 rounded border"
                 />
               )}

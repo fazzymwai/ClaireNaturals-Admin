@@ -6,7 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import Image from "next/image";
 interface Blog {
   id: string;
   title: string;
@@ -37,7 +37,11 @@ export default function ViewBlogPage() {
         const blogRef = doc(db, "blogs", blogId);
         const snapshot = await getDoc(blogRef);
         if (snapshot.exists()) {
-          setBlog({ id: snapshot.id, ...(snapshot.data() as Blog) });
+          const data = snapshot.data() as Blog;
+          setBlog({
+            ...data,
+            id: snapshot.id,            
+          });
         } else {
           alert("Blog not found!");
           router.push("/blogs");
@@ -67,9 +71,11 @@ export default function ViewBlogPage() {
         <CardContent className="space-y-6">
           {/* Cover Image */}
           {blog.coverImage && (
-            <img
+            <Image
               src={blog.coverImage}
               alt="Cover"
+              width={250}
+              height={250}
               className="w-full max-w-2xl rounded shadow"
             />
           )}
