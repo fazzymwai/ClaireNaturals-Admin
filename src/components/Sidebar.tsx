@@ -69,6 +69,7 @@ export default function Sidebar() {
           <NavItem href="/products" label="Products" active={pathname.startsWith("/products")} />
           <NavItem href="/orders" label="Orders" active={pathname.startsWith("/orders")} />
           <NavItem href="/zones" label="Delivery Zones" active={pathname.startsWith("/zones")} />
+          <NavItem href="/blogs" label="Blogs" active={pathname.startsWith("/blogs")} />
         </nav>
       </div>
       <div className="p-4 border-t">
